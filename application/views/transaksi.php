@@ -60,10 +60,10 @@
         $this->table->set_template($template);
         $rows=null;
         foreach($detils as $det) {
-            $row['idproduk'] = $det['idproduk'];
+            $row['iddetilpembelian'] = $det['iddetailpembelian'];
             $row['namaproduk'] = $det['namaproduk'];
             $row['jumlah'] = $det['jumlah'];
-            $row['hapus'] = "<a href='".site_url('pembelian/hapus/'.$row['idproduk'])."' class='btn btn-sm btn-danger'>hapus</a>";
+            $row['hapus'] = "<a href='".site_url('pembelian/hapus/'.$row['iddetilpembelian'])."' class='btn btn-sm btn-danger'>hapus</a>";
             $rows[]=$row;
         }
 

@@ -25,6 +25,8 @@ class Pembelian_model extends CI_Model{
 		if($key != null){
 			$this -> db -> where($key);
 		}
+		$this -> db -> select('iddetailpembelian, namaproduk, sum(jumlah)as jumlah');
+		$this -> db -> group_by('produk.id');
 		$this -> db -> join('produk', 'produk.id = detailpembelian.idproduk');
 		return $this->db->get('detailpembelian')->result_array();
 	}

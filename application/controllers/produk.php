@@ -7,15 +7,36 @@ class Produk extends CI_Controller {
 	}
 
 	function index(){
-		$produks = $this->produk_model->select();
-		// $data['produks'] = $this->produk_model->select();
-		$data['produks'] = null;
-		foreach ($produks as $prd) {
-			$prd['url'] = anchor('produk/edit/'.$prd['id'],'EDIT','class="btn btn-sm btn-warning"').
-						anchor('produk/hapus/'.$prd['id'],'HAPUS','class="btn btn-sm btn-danger ms-2"');
-			$data['produks'][]=$prd;
+		if ($this->session->has_userdata('username')) {
+			$produks = $this->produk_model->select();
+			// $data['produks'] = $this->produk_model->select();
+			$data['produks'] = null;
+			foreach ($produks as $prd) {
+				$prd['url'] = anchor('produk/edit/'.$prd['id'],'EDIT','class="btn btn-sm btn-warning"').
+							anchor('produk/hapus/'.$prd['id'],'HAPUS','class="btn btn-sm btn-danger ms-2"');
+				$data['produks'][]=$prd;
+			}
+			$this->load->view('produk',$data);
+		} else {
+			$this->load->view('login');
 		}
-		$this->load->view('produk',$data);
+	}
+
+
+	function login() {
+		$this->load->model('user_model');
+		$key['username']=$this->input->post('username');
+		$key['password']=$this->input->post('password');
+		$user= $this->user_model->select($key);
+		if (count($user)>0) {
+			$this->session->set_userdata('username', $this->input->post('username'));
+			$this->index();
+		}
+	}
+
+	function logout() {
+		$this->session->unset_userdata('username', $this->input->post('username'));
+		$this->index();
 	}
 
 	function edit($id){
